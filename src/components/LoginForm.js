@@ -1,8 +1,20 @@
-import React,{useState} from "react";
+import React,{useState,useMemo} from "react";
 
 function LoginForm({Login, error}) {
 
     const [details, setDetails] = useState({name:"",email:"",password:""})
+
+    const [labelButton, setLabelButton] = useState("action")
+
+    const buttonDisabled = useMemo(()=>{
+        if(details.password.length >=5){
+            setLabelButton("enable")
+            return false
+        }else{
+            setLabelButton("disabled")
+            return true
+        }
+    },[details])
 
     const submitHandler =e =>{
         e.preventDefault()
@@ -28,7 +40,7 @@ function LoginForm({Login, error}) {
                     <label htmlFor="password">Password: </label>
                     <input type="password" name="password" id="password" onChange={e=> setDetails({...details, password: e.target.value})}value={details.password} />               
                 </div>
-                <input type="submit" value="LOGIN"/>
+                <input type="submit" value="LOGIN" disabled={buttonDisabled}/>
 
 
             </div>
